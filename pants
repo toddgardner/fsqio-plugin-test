@@ -17,6 +17,7 @@ PYTHON=${PYTHON:-$(which python2.7)}
 
 PANTS_HOME="${PANTS_HOME:-${HOME}/.cache/pants/setup}"
 PANTS_BOOTSTRAP="${PANTS_HOME}/bootstrap-$(uname -s)-$(uname -m)"
+BUILDGEN_REQUIREMENTS="3rdparty/python/requirements.txt"
 
 VENV_VERSION=15.0.2
 
@@ -84,6 +85,8 @@ function bootstrap_pants {
       "${staging_dir}/install/bin/python" \
         "${staging_dir}/install/bin/pip" install \
           "${SETUPTOOLS_REQUIREMENT}" "${pants_requirement}" && \
+        "${staging_dir}/install/bin/pip" install \
+            -r "${BUILDGEN_REQUIREMENTS}" && \
       ln -s "${staging_dir}/install" "${staging_dir}/${pants_version}" && \
       mv "${staging_dir}/${pants_version}" "${PANTS_BOOTSTRAP}/${pants_version}"
     ) 1>&2
